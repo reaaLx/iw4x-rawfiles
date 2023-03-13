@@ -24,7 +24,7 @@
 			style													WINDOW_STYLE_FILLED \
 			type													ITEM_TYPE_BUTTON \
 			textAlign												ITEM_ALIGN_MIDDLE_CENTER \
-			textScale												MENU_BUTTON_TEXTSIZE \
+			textScale												0.25 \
 			textFont												9 \
 			text													textArg \
 			visible													visArg \

@@ -113,5 +113,5 @@ menuDef
 
 	MENU_ITEM_CREDITS_BOX("IW4x", MESSAGE_CREDITS)
 
-	ITEM_BUTTON_BACK(close self;)
+	//ITEM_BUTTON_BACK(close self;)
 }

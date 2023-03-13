@@ -17,15 +17,19 @@ itemDef { \
 
 // generic shader draw
 #define PREPROC_SHADER_DRAW( prect, porigin, pshader, pcolor, pborder, pbordersize, pbordercolor ) \
-itemDef { \
+itemDef 
+{ \
 	style			WINDOW_STYLE_SHADER \
-	rect			prect 0 0 origin porigin \
+	rect			prect \
+	origin 			porigin \
 	forecolor		pcolor \
 	exp				material( pshader ); \
 	border			pborder \
 	bordersize		pbordersize \
 	bordercolor		pbordercolor \
-	visible			1 decoration }		
+	visible			1 \
+	decoration 		\
+}		
 
 #define PREPROC_SHADER_DRAW_VIS( prect, porigin, pshader, pcolor, pborder, pbordersize, pbordercolor, visArg ) \
 itemDef { \

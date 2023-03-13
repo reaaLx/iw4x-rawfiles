@@ -1,73 +1,144 @@
 #include "ui/menudef.h"
 #include "ui_mp/main.inc"
-#include "ui_mp/pc_options.inc"
-
-#define MENU_NAME "controls_multi"
-#define MENU_TITLE "@MENU_CHAT"
-
-#undef CHOICE_GROUP
-#define CHOICE_GROUP MENU_NAME
 
 #define CLOSE_MENUS \
-	close "main_controls"; \
-	close "main_options"; \
-	close "options_control_defaults"; \
-	close "options_graphics"; \
-	close "options_graphics_defaults"; \
-	close "options_graphics_texture"; \
-	close "options_multi"; \
-	close "options_voice"; \
-	close "pc_options_actions"; \
-	close "pc_options_advanced_video"; \
-	close "pc_options_audio"; \
-	close "pc_options_controls"; \
-	close "pc_options_game"; \
-	close "pc_options_look"; \
-	close "pc_options_movement"; \
-	close "pc_options_multi"; \
-	close "pc_options_video"; \
-	close "pc_options_voice";
+		close "main_controls"; \
+		close "main_options"; \
+		close "options_control_defaults"; \
+		close "options_graphics"; \
+		close "options_graphics_defaults"; \
+		close "options_graphics_texture"; \
+		close "options_multi"; \
+		close "options_voice"; \
+		close "pc_options_actions"; \
+		close "pc_options_advanced_video"; \
+		close "pc_options_audio"; \
+		close "pc_options_controls"; \
+		close "pc_options_game"; \
+		close "pc_options_look"; \
+		close "pc_options_movement"; \
+		close "pc_options_multi"; \
+		close "pc_options_video"; \
+		close "pc_options_voice";
 
-#define ON_MENU_OPEN \
-	CLOSE_MENUS \
-	setLocalVarBool "ui_hideBack" (1); \
-	setLocalVarBool ui_hint_display 0;
-
-#define ON_MENU_CLOSE \
-	setLocalVarBool "ui_hideBack" (0); \
-	open "pc_options_controls";
-
-#define ON_MENU_ESC \
-	close self;
-
-menuDef
 {
-	name											MENU_NAME
-	rect											0 0 640 480
-	foreColor										CHOICE_TEXTCOLOR
-	focusColor										CHOICE_TEXTCOLOR
-	blurWorld										7
+	menuDef
+	{
+		name "controls_multi"
+		rect 0 0 640 480 0 0
+		forecolor CHOICE_TEXTCOLOR
+		focuscolor CHOICE_TEXTCOLOR
+		fadeCycle 1
+		fadeClamp 1
+		fadeAmount 0.1
+		blurWorld 7
+		onOpen
+		{
+			CLOSE_MENUS
+			exec "setfromdvar ui_name name";
+			setLocalVarBool "ui_hideBack" ( 1 );
+		}
+		onRequestClose
+		{
+			setLocalVarBool "ui_hideBack" ( 0 );
+		}
+		onEsc
+		{
+			close "self";
+		}
 
-	MENU_ON_OPEN(ON_MENU_OPEN)
-	MENU_ON_CLOSE(ON_MENU_CLOSE)
-	MENU_ON_ESC(ON_MENU_ESC)
+		#define BACKGROUND_PC_OPTIONS
+		#define BACKGROUND_IW4
+		#define DISABLE_SIDEBAR
+		#define BACKGROUND_FULL
+		#include "ui_mp/bg.inc"
 
-	#define BACKGROUND_PC_OPTIONS
-	#define BACKGROUND_IW4
-	#define DISABLE_SIDEBAR
-	#define BACKGROUND_FULL
-	#include "ui_mp/bg.inc"
+		CHOICE_SECTION_TITLE( 20, "@MENU_CHAT" )
+		
+		#undef CHOICE_X_START
+		#define CHOICE_X_START -18
 
-	PC_OPTIONS_SECTION_TITLE(MENU_TITLE)
+		#undef CHOICE_Y_START
+		#define CHOICE_Y_START 28
+		
+		#undef CHOICE_TEXT_OFFSET_X
+		#define CHOICE_TEXT_OFFSET_X -130
 
-	PC_OPTIONS_KEYBINDING(0, "@MENU_TEXT_CHAT", "chatmodepublic")
-	PC_OPTIONS_KEYBINDING(1, "@MENU_TEXT_TEAM_CHAT", "chatmodeteam")
-	PC_OPTIONS_KEYBINDING(2, "@MENU_QUICK_CHAT", "mp_QuickMessage")
+		#undef CHOICE_SIZE_X
+		#define CHOICE_SIZE_X 294
 
-	PC_OPTIONS_KEYBINDING(4, "@MENU_VOTE_YES", "vote yes")
-	PC_OPTIONS_KEYBINDING(5, "@MENU_VOTE_NO", "vote no")
+		#undef CHOICE_HIGHLIGHT
+		#define CHOICE_HIGHLIGHT "menu_setting_selection_bar"
+		
+		CHOICE_BIND( 20, "button_0", "@MENU_TEXT_CHAT", 			"chatmodepublic", ; )
+		CHOICE_BIND( 21, "button_1", "@MENU_TEXT_TEAM_CHAT", 		"chatmodeteam", ; )
+		CHOICE_BIND( 22, "button_2", "@MENU_VOICE_CHAT_BUTTON", 	"+talk", ; )
 
-	PC_OPTIONS_KEYBINDSTATUS
+		CHOICE_DVARSLIDER_EX( 24, "button_3", "@MENU_VOICECHAT_RECORD_LEVEL", "winvoice_mic_reclevel", 65535, 0, 65535, ;, disabled when ( dvarstring( "gameMode" ) == "sp" ) )
 
-	ITEM_BUTTON_BACK(ON_MENU_ESC)
+		CHOICE_DVARYESNO_EX( 25, "button_4", "@MENU_MUTE_ALL", "cl_voice", ;, disabled when ( dvarstring( "gameMode" ) == "sp" ) )
+		
+		CHOICE_BACK_VIS( "@PLATFORM_BACK_CAPS", MENU_OPTION_IS_OPEN, 1 )	
+		
+		CHOICE_KEYBINDHELP
+
+		itemDef
+		{
+			rect 232 88 344 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+			decoration
+			visible 1
+			forecolor 1 1 1 1
+			disablecolor 0.6 0.55 0.55 1
+			textfont 3
+			textalign 6
+			textalignx -131
+			textscale 0.375
+			text "@MENU_VOICECHAT_LEVEL_INDICATOR"
+			visible when ( 1 )
+			disabled when ( dvarstring( "gameMode" ) == "sp" )
+		}
+		itemDef
+		{
+			name "voicechat_level_indicator"
+			rect -268 94 96 10 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
+			decoration
+			visible 1
+			ownerdraw 265
+			forecolor 1 1 1 1
+			disablecolor 0.6 0.55 0.55 1
+			background "menu_setting_selection_bar"
+			type 8
+			textfont 3
+			textalign 4
+			textalignx 0
+			textscale 0.375
+			visible when ( 1 )
+			disabled when ( dvarstring( "gameMode" ) == "sp" || ( ( dvarstring( "gameMode" ) == "so" && ( dvarbool( "cl_ingame" ) || dvarbool( "sv_running" ) || inlobby( ) ) ) || ( dvarstring( "gameMode" ) == "mp" && ( dvarbool( "cl_ingame" ) || dvarbool( "sv_running" ) || inlobby( ) ) ) ) )
+			action
+			{
+				play "mouse_click";
+			}
+			onFocus
+			{
+				setItemColor self backcolor 0 0 0 1 play "mouse_over";
+			}
+			leaveFocus
+			{
+				setItemColor self backcolor 0 0 0 0;
+			}
+		}
+		itemDef
+		{
+			name "keyBindStatus"
+			rect 10 20 500 240 2 3
+			decoration
+			autowrapped
+			style 1
+			ownerdraw 250
+			forecolor 0.65 0.65 0.65 1
+			type 8
+			textalign 1
+			textscale 0.375
+		}
+	}
 }

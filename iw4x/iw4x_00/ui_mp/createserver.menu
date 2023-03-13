@@ -8,13 +8,6 @@
 #undef CHOICE_GROUP
 #define CHOICE_GROUP								MENU_NAME
 
-#define CHOICE_Y(i)									(48 + (i * 20))
-#define CHOICE_ORIGIN(i)							-64 CHOICE_Y(i)
-#define CHOICE_RECT(i)								CHOICE_ORIGIN(i) 336 20 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
-
-#define HR_ORIGIN(i)								0 (CHOICE_Y(i) - 0.5)
-#define HR_RECT(i)									HR_ORIGIN(i) 216 1 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
-
 #define MENU_PANEL_POS_X							-300
 #define MENU_PANEL_POS_Y							48
 #define MENU_PANEL_WIDTH							300
@@ -225,97 +218,103 @@
 	exec											"xpartygo";
 
 #define ACTION_RULES \
-	if (dvarString(ui_gametype) == "arena") \
+	if (dvarString("ui_gametype") == "arena") \
 	{ \
 		open										"settings_quick_arena"; \
 	} \
-	if (dvarString(ui_gametype) == "war") \
+	if (dvarString("ui_gametype") == "war") \
 	{ \
 		open										"settings_quick_war"; \
 	} \
-	if (dvarString(ui_gametype) == "sd") \
+	if (dvarString("ui_gametype") == "sd") \
 	{ \
 		open										"settings_quick_sd"; \
 	} \
-	if (dvarString(ui_gametype) == "sab") \
+	if (dvarString("ui_gametype") == "sab") \
 	{ \
 		open										"settings_quick_sab"; \
 	} \
-	if (dvarString(ui_gametype) == "dm") \
+	if (dvarString("ui_gametype") == "dm") \
 	{ \
 		open										"settings_quick_dm"; \
 	} \
-	if (dvarString(ui_gametype) == "dom") \
+	if (dvarString("ui_gametype") == "dom") \
 	{ \
 		open										"settings_quick_dom"; \
 	} \
-	if (dvarString(ui_gametype) == "ctf") \
+	if (dvarString("ui_gametype") == "ctf") \
 	{ \
 		open										"settings_quick_ctf"; \
 	} \
-	if (dvarString(ui_gametype) == "koth") \
+	if (dvarString("ui_gametype") == "koth") \
 	{ \
 		open										"settings_quick_koth"; \
 	} \
-	if (dvarString(ui_gametype) == "oneflag") \
+	if (dvarString("ui_gametype") == "oneflag") \
 	{ \
 		open										"settings_quick_oneflag"; \
 	} \
-	if (dvarString(ui_gametype) == "dd") \
+	if (dvarString("ui_gametype") == "dd") \
 	{ \
 		open										"settings_quick_dd"; \
 	} \
-	if (dvarString(ui_gametype) == "vip") \
+	if (dvarString("ui_gametype") == "vip") \
 	{ \
 		open										"settings_quick_vip"; \
 	} \
-	if (dvarString(ui_gametype) == "gtnw") \
+	if (dvarString("ui_gametype") == "gtnw") \
 	{ \
 		open										"settings_quick_gtnw"; \
 	}
-
-menuDef
 {
-	name											MENU_NAME
-	fullscreen										1
-	rect											0 0 640 480
-	foreColor										CHOICE_TEXTCOLOR
-	focusColor										CHOICE_TEXTCOLOR
-	soundLoop										MENU_MUSIC
-	fadeCycle										1
-	fadeClamp										1
-	fadeAmount										0.1
+	menuDef
+	{
+		name											MENU_NAME
+		fullscreen										1
+		rect											0 0 640 480
+		foreColor										CHOICE_TEXTCOLOR
+		focusColor										CHOICE_TEXTCOLOR
+		soundLoop										MENU_MUSIC
+		fadeCycle										1
+		fadeClamp										1
+		fadeAmount										0.1
 
-	MENU_ON_OPEN(ON_MENU_OPEN)
-	MENU_ON_CLOSE(ON_MENU_CLOSE)
-	MENU_ON_ESC(ON_MENU_ESC)
+		MENU_ON_OPEN(ON_MENU_OPEN)
+		MENU_ON_CLOSE(ON_MENU_CLOSE)
+		MENU_ON_ESC(ON_MENU_ESC)
 
-	#define BACKGROUND_IW4
-	#include "ui_mp/bg.inc"
+		#define BACKGROUND_IW4
+		#include "ui_mp/bg.inc"
 
-	ITEM_NEWSTICKER_VIS("", 1, NEWSTICKER_SPEED)
+		MENU_PANEL_SETTINGS
 
-	MENU_PANEL_SETTINGS
+		CHOICE_MENU_TITLE(MENU_TITLE, 18)
 
-	MENU_CHOICE_TITLE(MENU_TITLE, 18)
+		#undef CHOICE_Y_START
+		#define CHOICE_Y_START 48
 
-	MENU_CHOICE_BUTTON(0, button_0, "@MENU_START_GAME_CAPS", ACTION_START, "@NULL_EMPTY")
+		CHOICE_BUTTON_FOCUS(0, "button_0", "@MENU_START_GAME_CAPS", ACTION_START, "@NULL_EMPTY", "@NULL_EMPTY")
 
-	MENU_CHOICE_HORIZONTAL_LINE(1)
+		CHOICE_SEPARATOR(1)
 
-	MENU_CHOICE_BUTTON(1, button_1, "@MENU_CHANGE_MAP_CAPS", open "settings_map", "@NULL_EMPTY")
-	MENU_CHOICE_BUTTON(2, button_2, "@MENU_CHANGE_GAME_MODE_CAPS", open "settings_gametype", "@NULL_EMPTY")
-	MENU_CHOICE_BUTTON_VIS(3, button_3, "@MENU_CHANGE_GAME_RULES_CAPS", ACTION_RULES, "@NULL_EMPTY", when(dvarString(ui_gametype) != "arena" && dvarString(ui_gametype) != "oneflag"))
-	MENU_CHOICE_DBUTTON_VIS(3, button_3, "@MENU_CHANGE_GAME_RULES_CAPS", "@NULL_EMPTY", when(dvarString(ui_gametype) == "arena" || dvarString(ui_gametype) == "oneflag"))
+		CHOICE_BUTTON_FOCUS(1, "button_1", "@MENU_CHANGE_MAP_CAPS", open "settings_map", "@NULL_EMPTY", "@NULL_EMPTY")
+		CHOICE_BUTTON_FOCUS(2, "button_2", "@MENU_CHANGE_GAME_MODE_CAPS", open "settings_gametype", "@NULL_EMPTY", "@NULL_EMPTY")
 
-	MENU_CHOICE_HORIZONTAL_LINE(4)
-	MENU_CHOICE_BUTTON(4, button_4, "@MENU_PASSWORD_CAPS", open "popup_serverpassword", "@NULL_EMPTY")
+		CHOICE_BUTTON_FOCUS_VIS_EX( 3, "button_3", "@MENU_CHANGE_GAME_RULES_CAPS", ACTION_RULES, "@NULL_EMPTY", "@NULL_EMPTY", when(dvarString("ui_gametype") != "arena" && dvarString("ui_gametype") != "oneflag"), disabled when(dvarString("ui_gametype") == "arena" || dvarString("ui_gametype") == "oneflag") )
 
-	MENU_CHOICE_HORIZONTAL_LINE(5)
-	MENU_CHOICE_BUTTON(5, button_5, "@PLATFORM_BACK_CAPS", close self;, "@NULL_EMPTY")
+		CHOICE_SEPARATOR(4)
 
-	MENU_ITEM_NAT_TYPE
-	MENU_PANEL_MAP_PREVIEW
+		CHOICE_BUTTON_FOCUS(4, "button_4", "@MENU_PASSWORD_CAPS", open "popup_serverpassword", "@NULL_EMPTY", "@NULL_EMPTY")
 
-	ITEM_BUTTON_FRIENDS(-120)
+		CHOICE_SEPARATOR(5)
+
+		CHOICE_BUTTON_FOCUS(5, "button_5", "@PLATFORM_BACK_CAPS", close "self";, "@NULL_EMPTY", "@NULL_EMPTY")
+
+		CHOICE_NEWSTICKER_VIS("", 1, NEWSTICKER_SPEED)
+
+		MENU_ITEM_NAT_TYPE
+		MENU_PANEL_MAP_PREVIEW
+
+		//ITEM_BUTTON_FRIENDS(-120)
+	}
 }

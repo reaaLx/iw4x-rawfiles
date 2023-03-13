@@ -261,5 +261,5 @@ menuDef
 		}
 	}
 
-	ITEM_BUTTON_BACK(close self;)
+	CHOICE_BACK_VIS( "@PLATFORM_BACK_CAPS", ;, 1 )	
 }

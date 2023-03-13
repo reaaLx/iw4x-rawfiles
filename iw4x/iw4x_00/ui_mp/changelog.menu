@@ -105,6 +105,6 @@
 		}
 
 
-		ITEM_BUTTON_BACK(close self;)
+		//ITEM_BUTTON_BACK(close self;)
 	}
 }
