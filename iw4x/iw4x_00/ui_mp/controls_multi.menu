@@ -14,11 +14,13 @@
 		blurWorld 7
 		onOpen
 		{
+			close "pc_options_controls";
 			exec "setfromdvar ui_name name";
 			setLocalVarBool "ui_hideBack" ( 1 );
 		}
 		onRequestClose
 		{
+			open "pc_options_controls";
 			setLocalVarBool "ui_hideBack" ( 0 );
 		}
 		onEsc
