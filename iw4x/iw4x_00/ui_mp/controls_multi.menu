@@ -1,26 +1,6 @@
 #include "ui/menudef.h"
 #include "ui_mp/main.inc"
 
-#define CLOSE_MENUS \
-		close "main_controls"; \
-		close "main_options"; \
-		close "options_control_defaults"; \
-		close "options_graphics"; \
-		close "options_graphics_defaults"; \
-		close "options_graphics_texture"; \
-		close "options_multi"; \
-		close "options_voice"; \
-		close "pc_options_actions"; \
-		close "pc_options_advanced_video"; \
-		close "pc_options_audio"; \
-		close "pc_options_controls"; \
-		close "pc_options_game"; \
-		close "pc_options_look"; \
-		close "pc_options_movement"; \
-		close "pc_options_multi"; \
-		close "pc_options_video"; \
-		close "pc_options_voice";
-
 {
 	menuDef
 	{
@@ -34,7 +14,6 @@
 		blurWorld 7
 		onOpen
 		{
-			CLOSE_MENUS
 			exec "setfromdvar ui_name name";
 			setLocalVarBool "ui_hideBack" ( 1 );
 		}

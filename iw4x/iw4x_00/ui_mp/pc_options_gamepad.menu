@@ -18,26 +18,6 @@
 #define SENSITIVITY_9		3.5
 #define SENSITIVITY_10		4.0		// (Insane)
 
-#define CLOSE_MENUS \
-		close "controls_multi"; \
-		close "main_controls"; \
-		close "main_options"; \
-		close "options_control_defaults"; \
-		close "options_graphics"; \
-		close "options_graphics_defaults"; \
-		close "options_graphics_texture"; \
-		close "options_multi"; \
-		close "options_voice"; \
-		close "pc_options_actions"; \
-		close "pc_options_advanced_video"; \
-		close "pc_options_audio"; \
-		close "pc_options_controls"; \
-		close "pc_options_look"; \
-		close "pc_options_movement"; \
-		close "pc_options_multi"; \
-		close "pc_options_video"; \
-		close "pc_options_voice";
-
 #define ON_GPAD_ENABLED when(dvarBool("gpad_enabled") == 1)
 #define ON_GPAD_DISABLED when(dvarBool("gpad_enabled") == 0)
 
@@ -65,7 +45,6 @@
 		blurWorld 7
 		onOpen
 		{
-			CLOSE_MENUS
 			exec "setfromdvar ui_name name";
 			setLocalVarString ui_hint_text "@NULL_EMPTY";
 			setLocalVarBool ui_hint_display 1;
