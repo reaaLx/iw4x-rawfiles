@@ -1,0 +1,46 @@
+#include "ui/menudef.h"
+#include "ui_mp/main.inc"
+{
+	menuDef
+	{
+		name "main_options"
+		rect 0 0 640 480 0 0
+		forecolor CHOICE_TEXTCOLOR
+		focuscolor CHOICE_TEXTCOLOR
+		fadeCycle 1
+		fadeClamp 1
+		fadeAmount 0.1
+		blurWorld 7
+		onOpen
+		{
+			setLocalVarBool "ui_showApply" ( 0 );
+			setLocalVarBool "ui_hideBack" ( 1 );
+			execNow "profile_menuDvarsSetup; resetViewport";
+		}
+		onRequestClose
+		{
+			setLocalVarBool "ui_hideBack" ( 0 );
+		}
+		onEsc
+		{
+			close "self";
+			if ( localvarbool( "ui_showApply" ) || localvarbool( "ui_showAudioApply" ) )
+			{
+				if ( !menuisopen( "pc_options_advanced_video" ) && !menuisopen( "pc_options_video" ) && !menuisopen( "pc_options_Audio" ) && !menuisopen( "pc_options_controls" ) && !menuisopen( "pc_options_voice" ) )
+				{
+					open "all_restart_popmenu";
+				}
+			}
+			execNow "profile_menuDvarsFinish; resetViewport";
+		}
+
+		#define BACKGROUND_PC_OPTIONS
+		#define BACKGROUND_IW4
+		#define SIDEBAR_RIGHT
+		#include "ui_mp/bg.inc"
+
+		CHOICE_MENU_TITLE( "@MENU_OPTIONS_CAPS", 0 )
+
+		#include "ui_mp/leftside_options.inc"
+	}
+}
